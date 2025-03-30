@@ -1,23 +1,32 @@
-
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 BOT_TOKEN = "8072737679:AAF7v-BSeteWswqcewp35o9ECd_lu0UlwnA"
 
+# Sicherer Zugriff auf update.message
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Willkommen im Los Plugos Casino!\n\nMit /casino kannst du eine Runde drehen.\nMit /meinlink erhältst du deinen Empfehlungslink.\nMit /topref siehst du das Ranking der Werber.")
+    if update.message:
+        await update.message.reply_text(
+            "Willkommen im Los Plugos Casino!\n\n"
+            "Mit /casino kannst du eine Runde drehen.\n"
+            "Mit /meinlink erhältst du deinen Empfehlungslink.\n"
+            "Mit /topref siehst du das Ranking der Werber."
+        )
 
 async def meinlink(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = update.effective_user.id
-    link = f"https://t.me/{context.bot.username}?start={user_id}"
-    await update.message.reply_text(f"Dein persönlicher Invite-Link:\n{link}")
+    if update.message:
+        user_id = update.effective_user.id
+        link = f"https://t.me/{context.bot.username}?start={user_id}"
+        await update.message.reply_text(f"Dein persönlicher Invite-Link:\n{link}")
 
 async def topref(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Top-Werber werden bald angezeigt...")
+    if update.message:
+        await update.message.reply_text("Top-Werber werden bald angezeigt...")
 
 async def casino(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Demo: Du hast 1 Token eingesetzt. Viel Glück!")
+    if update.message:
+        await update.message.reply_text("Demo: Du hast 1 Token eingesetzt. Viel Glück!")
 
 def main():
     logging.basicConfig(level=logging.INFO)
